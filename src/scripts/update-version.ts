@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 const version = process.env.VERSION ?? 'none';
 
 if (version !== 'none') {
@@ -9,6 +9,7 @@ if (version !== 'none') {
 
     const updatedPackageJsonString = JSON.stringify(packageJson, null, 2);
     fs.writeFileSync('package.json', updatedPackageJsonString, 'utf-8');
+    console.log('Version updated ✅');
   } catch (error) {
     console.log(error);
   }
