@@ -39,3 +39,5 @@ lerna-debug.log*
 
 # docs
 documentation
+
+prisma/dev.db
