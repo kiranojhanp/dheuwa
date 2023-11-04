@@ -1,6 +1,8 @@
 tag = 0
 version = 0.1
 
+.PHONY: test
+
 build:
 	@printf "\033[0;32m>>> Building\033[0m\n"
 	pnpm build
