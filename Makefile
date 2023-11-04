@@ -57,4 +57,4 @@ typecheck:
 
 version.update:
 	@printf "\033[0;32m>>> Updating API version to ${version}.${tag}\033[0m\n"
-	VERSION=${version}.${tag} npx ts-node src/scripts/update-version.ts
+	export VERSION=${version}.${tag} || set VERSION=${version}.${tag} && npx ts-node src/scripts/update-version.ts
