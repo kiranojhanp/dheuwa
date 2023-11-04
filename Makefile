@@ -1,5 +1,8 @@
-tag = 0
-version = 0.1
+#!make
+include .env
+
+tag = ${TAG}
+version = ${VERSION}
 
 .PHONY: test
 
@@ -54,3 +57,6 @@ test:
 typecheck:
 	@printf "\033[0;32m>>> Running Type check\033[0m\n"
 	pnpm typecheck
+
+version.check:
+	@printf "\033[0;32m>>> Current API version is ${version}.${tag}\033[0m\n"
