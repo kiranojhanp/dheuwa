@@ -1,8 +1,16 @@
 import { Injectable } from '@nestjs/common';
 
+export interface RootResponse {
+  name: string;
+  version: string;
+}
+
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getHello(): RootResponse {
+    return {
+      "name": "Dheuwa API",
+      "version": "0.0.1",
+    };
   }
 }
