@@ -1,8 +1,5 @@
-#!make
-include .config.env
-
-tag = ${TAG}
-version = ${VERSION}
+tag = 0
+version = 0.1
 
 .PHONY: test
 
@@ -58,5 +55,7 @@ typecheck:
 	@printf "\033[0;32m>>> Running Type check\033[0m\n"
 	pnpm typecheck
 
-version.check:
-	@printf "\033[0;32m>>> Current API version is ${version}.${tag}\033[0m\n"
+version.update:
+	@printf "\033[0;32m>>> Updating API version to ${version}.${tag}\033[0m\n"
+	VERSION=${version}.${tag} npx tsx src/scripts/update-version.ts
+	@printf "\033[0;32m>>> Version updated ✅\033[0m\n"
