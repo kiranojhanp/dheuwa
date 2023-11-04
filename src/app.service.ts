@@ -9,8 +9,8 @@ export interface RootResponse {
 export class AppService {
   getHello(): RootResponse {
     return {
-      "name": "Dheuwa API",
-      "version": "0.0.1",
+      name: 'Dheuwa API',
+      version: '0.0.1',
     };
   }
 }
