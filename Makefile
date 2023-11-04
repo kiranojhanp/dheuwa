@@ -1,5 +1,5 @@
 #!make
-include .env
+include .config.env
 
 tag = ${TAG}
 version = ${VERSION}
