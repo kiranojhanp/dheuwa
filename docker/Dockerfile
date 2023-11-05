@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node pnpm-lock.yaml ./
 RUN pnpm fetch --prod
 COPY --chown=node:node . .
-RUN pnpm install -r --offline --prod --frozen-lockfile --ignore-scripts
+RUN pnpm install
 
 # Use the node user from the image (instead of the root user)
 USER node
