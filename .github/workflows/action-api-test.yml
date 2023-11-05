@@ -23,7 +23,7 @@ jobs:
       - name: Set environment variables for api
         uses: ./.github/actions/set-environment-variables/api
       - name: Build docker file
-        uses: ./.github/actions/build-images/api
+        uses: ./.github/actions/build-image/api
         with:
           BUILD_TYPE: "development"
       - name: Run docker
