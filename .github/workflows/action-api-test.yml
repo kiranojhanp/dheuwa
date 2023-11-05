@@ -20,6 +20,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v3
+      - name: Set common environment variables
+        uses: ./.github/actions/set-environment-variables
       - name: Set environment variables for api
         uses: ./.github/actions/set-environment-variables/api
       - name: Build docker file
