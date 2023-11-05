@@ -3,10 +3,43 @@
     "**/*.(t|j)s"
   ],
   "coverageDirectory": "../coverage",
+  "coverageReporters": [
+    "clover",
+    "cobertura",
+    "json",
+    "lcov",
+    [
+      "text",
+      {
+        "skipFull": true
+      }
+    ]
+  ],
   "moduleFileExtensions": [
     "js",
     "json",
     "ts"
+  ],
+  "reporters": [
+    "default",
+    "jest-junit",
+    [
+      "jest-silent-reporter",
+      {
+        "useDots": true
+      }
+    ],
+    [
+      "@jest-performance-reporter/core",
+      {
+        "errorAfterMs": 1000,
+        "warnAfterMs": 500,
+        "logLevel": "warn",
+        "maxItems": 5,
+        "jsonReportPath": "performance-report.json",
+        "csvReportPath": "performance-report.csv"
+      }
+    ]
   ],
   "rootDir": "src",
   "testEnvironment": "node",

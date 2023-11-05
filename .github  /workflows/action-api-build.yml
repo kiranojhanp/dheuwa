@@ -1,0 +1,50 @@
+name: Api build
+
+on:
+  push:
+    branches-ignore: ['*-develop', '[0-9]?[0-9].[0-9]?[0-9]']
+    tags-ignore: ['**']
+    paths:
+      [
+        '.github/workflows/action-api-build.yml',
+        '.github/variables/common.env',
+        '.github/actions/**',
+        'src/**',
+      ]
+
+jobs:
+  api_build:
+    container: docker/compose:latest
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set environment variables for api
+        uses: ./.github/actions/set-environment-variables/api
+      - name: Build docker file
+        uses: ./.github/actions/build-images/api
+        with:
+          BUILD_TYPE: "production"
+      - name: Run docker
+        run: docker run -di --name $API_CONTAINER $API_IMAGE_LOCAL /bin/sh
+      - name: Run tests
+        run: docker exec $API_CONTAINER pnpm run test:cov:ci
+      - name: Export junit file
+        run: docker cp $API_CONTAINER:/usr/src/app/junit.xml $GITHUB_WORKSPACE/junit.xml
+      - name: Export coverage
+        run: docker cp $API_CONTAINER:/usr/src/app/coverage $GITHUB_WORKSPACE/coverage
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: |
+            junit.xml
+            coverage
+      - name: Stop docker
+        run: docker stop $API_CONTAINER
+      - name: Remove local Image container
+        run: docker rm $API_CONTAINER
+      - name: Remove local Image
+        run: docker rmi -f $API_IMAGE_LOCAL

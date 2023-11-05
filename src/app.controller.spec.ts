@@ -18,7 +18,7 @@ describe('AppController', () => {
     it('should return "API info"', () => {
       expect(appController.getHello()).toStrictEqual({
         name: 'Dheuwa API',
-        version: '0.0.1',
+        version: '0.1.0',
       });
     });
   });
