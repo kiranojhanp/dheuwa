@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "lint:fix": "pnpm lint --fix",
+    "prepare": "husky install",
     "sort-package": "npx sort-package-json",
     "start": "nest start",
     "start:debug": "nest start --debug --watch",
