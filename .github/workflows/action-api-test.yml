@@ -5,7 +5,7 @@ on:
     branches: ['0.1-develop']
     paths:
       [
-        '.github/workflows/action-api-build.yml',
+        '.github/workflows/action-api-test.yml',
         '.github/variables/common.env',
         '.github/actions/**',
         'src/**',
