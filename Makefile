@@ -33,6 +33,14 @@ run:
 	@printf "\033[0;32m>>> Running all apps in parallel\033[0m\n"
 	pnpm start:dev
 
+services:
+	@printf "\033[0;32m>>> Starting local services\033[0m\n"
+	cd services && make start
+
+services.stop:
+	@printf "\033[0;32m>>> Stopping local services\033[0m\n"
+	cd services && make stop
+
 sort-package:
 	@printf "\033[0;32m>>> Format package.json\033[0m\n"
 	pnpm sort-package
