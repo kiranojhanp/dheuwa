@@ -31,7 +31,7 @@ jobs:
       - name: Run docker
         run: docker run -di --name $API_CONTAINER $API_IMAGE_LOCAL /bin/sh
       - name: Run tests
-        run: docker exec $API_CONTAINER --chown=node:node pnpm run test:cov:ci
+        run: docker exec $API_CONTAINER --user node:node pnpm run test:cov:ci
       - name: Export junit file
         run: docker cp $API_CONTAINER:/usr/src/app/junit.xml $GITHUB_WORKSPACE/junit.xml
       - name: Export coverage

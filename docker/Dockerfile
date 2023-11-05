@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node pnpm-lock.yaml ./
 RUN pnpm fetch --prod
 COPY --chown=node:node . .
-RUN pnpm install
+RUN pnpm install -r --offline --prod --frozen-lockfile --ignore-scripts
 
 # Use the node user from the image (instead of the root user)
 USER node
@@ -22,13 +22,18 @@ USER node
 FROM node:18-alpine As build
 RUN npm install -g pnpm@8.10.0
 
+ARG build='local'
+ARG version='0.1'
+ENV API_BUILD $build
+ENV API_VERSION $version
+ENV NODE_ENV production
+
 WORKDIR /usr/src/app
 
 COPY --chown=node:node pnpm-lock.yaml ./
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node . .
 RUN pnpm build
-ENV NODE_ENV production
 RUN pnpm install --prod
 USER node
 
