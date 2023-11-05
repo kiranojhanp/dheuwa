@@ -28,5 +28,5 @@ runs:
       shell: sh
     - run: echo "API_IMAGE_LATEST=$REGISTRY/$API_IMAGE:$VERSION" >> $GITHUB_ENV
       shell: sh
-    - run: echo "PATH_TO_DOCKER=/docker" >> $GITHUB_ENV
+    - run: echo "PATH_TO_DOCKER=docker" >> $GITHUB_ENV
       shell: sh
