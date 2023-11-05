@@ -25,7 +25,7 @@ jobs:
       - name: Build docker file
         uses: ./.github/actions/build-images/api
         with:
-          BUILD_TYPE: "production"
+          BUILD_TYPE: "development"
       - name: Run docker
         run: docker run -di --name $API_CONTAINER $API_IMAGE_LOCAL /bin/sh
       - name: Run tests

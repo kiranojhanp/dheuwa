@@ -17,6 +17,8 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+performance-report.*
+junit.xml
 
 # IDEs and editors
 /.idea
@@ -36,8 +38,7 @@ lerna-debug.log*
 
 # sensitive
 .env
+!.example.env
 
 # docs
 documentation
-
-prisma/dev.db
