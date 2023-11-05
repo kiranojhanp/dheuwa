@@ -7,13 +7,12 @@ RUN npm install -g pnpm@8.10.0
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node pnpm-lock.yaml ./
+COPY pnpm-lock.yaml ./
 RUN pnpm fetch
-COPY --chown=node:node . .
+COPY . .
 RUN pnpm install
 
 # Use the node user from the image (instead of the root user)
-USER node
 
 ###################
 # BUILD FOR PRODUCTION
@@ -30,12 +29,11 @@ ENV NODE_ENV production
 
 WORKDIR /usr/src/app
 
-COPY --chown=node:node pnpm-lock.yaml ./
-COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node . .
+COPY pnpm-lock.yaml ./
+COPY --from=development /usr/src/app/node_modules ./node_modules
+COPY . .
 RUN pnpm build
 RUN pnpm install --prod
-USER node
 
 ###################
 # PRODUCTION
@@ -44,8 +42,8 @@ USER node
 FROM node:18-alpine As production
 
 # Copy the bundled code from the build stage to the production image
-COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
-COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/dist ./dist
 
 # Start the server using the production build
 CMD [ "node", "dist/main.js" ]

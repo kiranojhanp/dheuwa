@@ -31,11 +31,11 @@ jobs:
       - name: Run docker
         run: docker run -di --name $API_CONTAINER $API_IMAGE_LOCAL /bin/sh
       - name: Run tests
-        run: docker exec --user node:node $API_CONTAINER pnpm run test:cov:ci
+        run: docker exec $API_CONTAINER pnpm run test:cov:ci
       - name: Export junit file
-        run: docker cp --user node:node $API_CONTAINER:/usr/src/app/junit.xml $GITHUB_WORKSPACE/junit.xml
+        run: docker cp $API_CONTAINER:/usr/src/app/junit.xml $GITHUB_WORKSPACE/junit.xml
       - name: Export coverage
-        run: docker cp --user node:node $API_CONTAINER:/usr/src/app/coverage $GITHUB_WORKSPACE/coverage
+        run: docker cp $API_CONTAINER:/usr/src/app/coverage $GITHUB_WORKSPACE/coverage
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
