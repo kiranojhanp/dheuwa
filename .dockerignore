@@ -1,0 +1,10 @@
+dist
+Dockerfile
+documentation
+.dockerignore
+.github
+.husky
+node_modules
+npm-debug.log
+services
+scripts

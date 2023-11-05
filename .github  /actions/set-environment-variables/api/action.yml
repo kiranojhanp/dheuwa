@@ -1,0 +1,32 @@
+name: "Set environment variables"
+description: "Configures environment variables for a workflow"
+inputs:
+  path:
+    description: |
+      Path to variable file or directory. Defaults to ./.github/variables/*
+      if not specified and runs against each file in that directory."
+    required: false
+    default: ./.github/variables/*
+runs:
+  using: "composite"
+  steps:
+    - run: sed "" ${{ inputs.path }} >> $GITHUB_ENV
+      shell: sh
+    - run: echo "RUN_ID=${{ github.run_id }}" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_CONTAINER=$PROJECT-api-$RUN_ID" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE=$PROJECT/api" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE_DEVELOP=$REGISTRY/$API_IMAGE:$VERSION-develop" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE_LOCAL=$API_IMAGE:$RUN_ID" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE_STAGING=$REGISTRY/$API_IMAGE:$VERSION-staging" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE_TAGGED=$REGISTRY/$API_IMAGE:$VERSION.$TAG" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "API_IMAGE_LATEST=$REGISTRY/$API_IMAGE:$VERSION" >> $GITHUB_ENV
+      shell: sh
+    - run: echo "PATH_TO_DOCKER=/docker" >> $GITHUB_ENV
+      shell: sh

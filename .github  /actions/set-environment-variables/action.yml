@@ -1,0 +1,20 @@
+name: "Set environment variables"
+description: "Configures environment variables for a workflow"
+inputs:
+  path:
+    description: |
+      Path to variable file or directory. Defaults to ./.github/variables/*
+      if not specified and runs against each file in that directory."
+    required: false
+    default: ./.github/variables/*
+runs:
+  using: "composite"
+  steps:
+    - run: sed "" ${{ inputs.path }} >> $GITHUB_ENV
+      shell: sh
+    - run: |
+        echo "PROJECT=${{ github.event.repository.name }}" >> $GITHUB_ENV
+      shell: sh
+    - run: |
+        echo "TEST_DB_IMAGE=${{ github.event.repository.name }}/test-db" >> $GITHUB_ENV
+      shell: sh

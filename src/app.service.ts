@@ -10,7 +10,7 @@ export class AppService {
   getHello(): RootResponse {
     return {
       name: 'Dheuwa API',
-      version: '0.0.1',
+      version: '0.1.0',
     };
   }
 }

@@ -1,0 +1,17 @@
+name: "Build Docker Image"
+description: "Re-usable docker image build"
+inputs:
+  build_type:
+    description: 'Build type'
+    required: true
+    default: 'build'
+runs:
+  using: "composite"
+  steps:
+    - name: Build docker file
+      run: docker build -t $API_IMAGE_LOCAL
+            --build-arg build=$RUN_ID
+            --build-arg version=$VERSION.$TAG
+            --target ${{ inputs.build_type }}
+            -f $PATH_TO_DOCKER/Dockerfile .
+      shell: sh
