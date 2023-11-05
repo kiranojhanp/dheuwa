@@ -1,0 +1,76 @@
+version: "3.8"
+
+networks:
+  services:
+    driver: bridge
+    name: ${WORKSPACE}
+
+services:
+  mailhog:
+    container_name: ${WORKSPACE}-mailhog
+    image: mailhog/mailhog:${MAILHOG_VERSION-latest}
+    networks:
+      - services
+    ports:
+      - ${MAILHOG_PORT_SMTP}:1025
+      - ${MAILHOG_PORT_WEB}:8025
+
+  mariadb:
+    container_name: ${WORKSPACE}-mariadb
+    env_file: .env
+    environment:
+      MARIADB_DATABASE: ${WORKSPACE}
+      MARIADB_PASSWORD: ${WORKSPACE}
+      MARIADB_ROOT_PASSWORD: ${WORKSPACE}
+      MARIADB_USER: ${WORKSPACE}
+    image: mariadb:${MARIADB_VERSION-10.9}
+    networks:
+      - services
+    ports:
+      - ${MARIADB_PORT}:3306
+    volumes:
+      - ./mariadb/conf.d/character_set.cnf:/etc/mysql/conf.d/character-set.cnf
+      - ./mariadb/fixtures:/docker-entrypoint-initdb.d
+      - mariadb-data:/var/lib/mysql
+
+  minio:
+    container_name: ${WORKSPACE}-minio
+    env_file: .env
+    image: minio/minio:${MINIO_VERSION-latest}
+    networks:
+      - services
+    ports:
+      - "${MINIO_PORT}:9001"
+    command: server /data --console-address ":9001"
+
+  phpmyadmin:
+    container_name: ${WORKSPACE}-phpmyadmin
+    depends_on:
+      - mariadb
+    environment:
+      PMA_ABSOLUTE_URI: http://localhost:${PHPMYADMIN_PORT}
+      PMA_HOSTS: mariadb
+    image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION-latest}
+    networks:
+      - services
+    ports:
+      - ${PHPMYADMIN_PORT}:80
+
+  supertokens:
+    container_name: ${WORKSPACE}-supertokens
+    depends_on:
+      - mariadb
+    environment:
+      MYSQL_DATABASE_NAME: ${WORKSPACE}
+      MYSQL_HOST: mariadb
+      MYSQL_PASSWORD: ${WORKSPACE}
+      MYSQL_TABLE_NAMES_PREFIX: ${SUPERTOKENS_DATABASE_PREFIX-st_}
+      MYSQL_USER: ${WORKSPACE}
+    image: supertokens/supertokens-mysql:${SUPERTOKENS_VERSION-4.2}
+    networks:
+      - services
+    ports:
+      - ${SUPERTOKENS_PORT}:3567
+
+volumes:
+  mariadb-data:
