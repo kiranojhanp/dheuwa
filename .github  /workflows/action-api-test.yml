@@ -2,7 +2,7 @@ name: Api build
 
 on:
   push:
-    branches: ['*-develop', '[0-9]?[0-9].[0-9]?[0-9]']
+    branches: ['0.1-develop']
     paths:
       [
         '.github/workflows/action-api-build.yml',
