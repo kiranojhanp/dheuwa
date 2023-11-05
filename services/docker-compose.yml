@@ -34,14 +34,17 @@ services:
       - mariadb-data:/var/lib/mysql
 
   minio:
+    build:
+      context: ./minio
+      dockerfile: Dockerfile
+    command: server /buckets --address ":9001" --console-address ":9000"
     container_name: ${WORKSPACE}-minio
     env_file: .env
-    image: minio/minio:${MINIO_VERSION-latest}
     networks:
       - services
     ports:
       - "${MINIO_PORT}:9001"
-    command: server /data --console-address ":9001"
+      - "${MINIO_PORT_CONSOLE}:9000"
 
   phpmyadmin:
     container_name: ${WORKSPACE}-phpmyadmin
@@ -61,12 +64,14 @@ services:
     depends_on:
       - mariadb
     environment:
+      ACCESS_TOKEN_VALIDITY: ${SUPERTOKENS_ACCESS_TOKEN_VALIDITY_IN_SECONDS}
       MYSQL_DATABASE_NAME: ${WORKSPACE}
       MYSQL_HOST: mariadb
       MYSQL_PASSWORD: ${WORKSPACE}
       MYSQL_TABLE_NAMES_PREFIX: ${SUPERTOKENS_DATABASE_PREFIX-st_}
       MYSQL_USER: ${WORKSPACE}
-    image: supertokens/supertokens-mysql:${SUPERTOKENS_VERSION-4.2}
+      REFRESH_TOKEN_VALIDITY: ${SUPERTOKENS_REFRESH_TOKEN_VALIDITY_IN_MINUTES}
+    image: supertokens/supertokens-mysql:${SUPERTOKENS_VERSION-4.6}
     networks:
       - services
     ports:
