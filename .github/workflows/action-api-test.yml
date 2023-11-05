@@ -1,4 +1,4 @@
-name: Api build
+name: Api build workflow
 
 on:
   push:

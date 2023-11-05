@@ -8,7 +8,7 @@ RUN npm install -g pnpm@8.10.0
 WORKDIR /usr/src/app
 
 COPY --chown=node:node pnpm-lock.yaml ./
-RUN pnpm fetch --prod
+RUN pnpm fetch
 COPY --chown=node:node . .
 RUN pnpm install
 
